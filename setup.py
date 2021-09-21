@@ -10,7 +10,7 @@ with io.open(readme_path, encoding="utf-8") as f:
 
 setup(
     name="section-index-optional",
-    version="0.1.0",
+    version="1.0",
     packages=["section_index_optional"],
     url="https://github.com/rkk1995/section-index-optional",
     license="MIT",
@@ -25,7 +25,7 @@ setup(
     # Without them, mkdocs will not be able to recognize it.
     entry_points={
         "mkdocs.plugins": [
-            "section-index-optional = section_index_optional:SectionIndexPlugin",
+            "section-index-optional = section_index_optional.plugin:SectionIndexPlugin",
         ]
     },
 )

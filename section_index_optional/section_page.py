@@ -5,8 +5,6 @@ from mkdocs.structure.files import File
 from mkdocs.structure.nav import Section
 from mkdocs.structure.pages import Page
 
-__all__ = ["SectionPage"]
-
 
 class SectionPage(Section, Page):
     def __init__(self, title: str, file: File, config: Config, children: Sequence):

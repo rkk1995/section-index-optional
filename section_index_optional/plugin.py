@@ -8,9 +8,8 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.structure.nav import Navigation, Section
 from mkdocs.structure.pages import Page
 
-from . import SectionPage, rewrites
-
-__all__ = ["SectionIndexPlugin"]
+from .section_page import SectionPage
+from .rewrites import TemplateRewritingLoader
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 log.addFilter(mkdocs.utils.warning_filter)
@@ -58,13 +57,13 @@ class SectionIndexPlugin(BasePlugin):
                     page = section.children[0]
                 else:
                     for page_index, child in enumerate(section.children):
+                        if not isinstance(child, Page):
+                            continue
                         if os.path.basename(child.file.src_path) == index_file:
                             page = child
                             break
                     else:
                         continue
-                if not isinstance(page, Page):
-                    continue
                 assert not page.children
                 if not page.title and page.url:
                     # The page becomes a section-page.
@@ -85,7 +84,7 @@ class SectionIndexPlugin(BasePlugin):
         return nav
 
     def on_env(self, env: Environment, config, files) -> Environment:
-        env.loader = self._loader = rewrites.TemplateRewritingLoader(env.loader)
+        env.loader = self._loader = TemplateRewritingLoader(env.loader)
         return env
 
     def on_page_context(self, context, page, config, nav):
